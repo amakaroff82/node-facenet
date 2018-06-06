@@ -51,9 +51,9 @@ RUN set -ex; \
 RUN pip3 install flake8 mypy pillow pylint pytest opencv-python scipy sklearn tensorflow typing wheel
 
 # RUN yarn
-# RUN npm install numjs flash-store 
+# RUN npm install numjs flash-store
 
-# EXPOSE 80
+EXPOSE 8080
 
 VOLUME [ "/facenet" ]                               `
 

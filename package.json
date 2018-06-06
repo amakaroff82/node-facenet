@@ -1,5 +1,5 @@
 {
-  "name": "facenet",
+  "name": "CoreVision",
   "version": "0.10.3",
   "description": "Solve face verification, recognition and clustering problems: a TensorFlow backed FaceNet implementation for Node.js.",
   "main": "dist/index.js",
@@ -50,7 +50,7 @@
     "git-scripts": "^0.2.1",
     "gm": "^1.23.0",
     "jsdoc-to-markdown": "^4.0.0",
-    "numjs": "^0.15.0",
+    "numjs": "^0.15.1",
     "nyc": "^12.0.1",
     "semver": "^5.5.0",
     "shx": "^0.2.2",
@@ -62,7 +62,6 @@
     "typescript": "^2.6.1"
   },
   "scripts": {
-    "check-version": "./bin/check-version.sh",
     "clean": "npm run clean:dist && npm run clean:python3 && npm run clean:models",
     "clean:dist": "shx rm -fr dist/*",
     "clean:python3": "shx rm -fr python3/*",
@@ -79,12 +78,11 @@
     "lint:mypy": "mypy --disallow-untyped-defs src/python3/*.py",
     "manager": "npm run facenet-manager",
     "facenet-manager": "ts-node bin/facenet-manager",
-    "preinstall": "npm run check-version",
     "postinstall": "npm run venv && npm run postinstall:facenet && npm run postinstall:models",
     "postinstall:facenet": "cd python3 && if [ -d facenet ]; then (cd facenet && git pull); else git clone https://github.com/davidsandberg/facenet.git; fi && cd -",
     "postinstall:models": "set -e && if [ ! -d models ]; then mkdir models; fi && cd models && if [ ! -e model.tar.bz2 -a ! -e model-*.meta ]; then curl --silent --location --output model.tar.bz2.tmp https://github.com/zixia/node-facenet/releases/download/v0.1.9/model-20170512.tar.bz2; mv model.tar.bz2.tmp model.tar.bz2; fi && if [ ! -f model-*.meta ]; then tar jxvf model.tar.bz2; rm -f model.tar.bz2; fi && cd -",
     "start": "echo `npm run demo` to show a demo.",
-    "test": "npm run check-version && npm run lint && npm run test:py && npm run test:ts",
+    "test": "pm run lint && npm run test:py && npm run test:ts",
     "test:coverage": "nyc report --reporter=text-lcov | coveralls",
     "test:ts": "tape -r ts-node/register -r source-map-support/register \"src/**/*.spec.ts\" \"tests/**/*.spec.ts\"",
     "test:py": ". python3/bin/activate && PYTHONPATH='src/:python3/facenet/src/' pytest src/ tests/",

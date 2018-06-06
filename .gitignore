@@ -139,3 +139,4 @@ models/
 /cache/
 .DS_Store
 .*.swp
+.idea
