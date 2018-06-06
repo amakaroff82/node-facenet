@@ -10,41 +10,37 @@
     form { margin-top: 15px; }
     form > input { margin-right: 15px; }
     #results { float:right; margin:20px; padding:20px; border:1px solid; background:#ccc; }
-    #layer { position: absolute; height: 480px; width: 640px; top: 0px }
+    #layer { position: absolute; top: 0px }
     #preview { position: relative }
   </style>
 </head>
 <body>
-
-
 <h1>CoreVision</h1>
 <h3>Face Recognition Tool</h3>
-
 <div id="preview">
   <div id="my_camera"></div>
-  <canvas id="layer" height="480" width="640"></canvas>
+  <canvas id="layer" height="768" width="1024"></canvas>
 </div>
+<form>
+  <input type=button value="Start" onClick="startStream()">
+</form>
 
-<!-- First, include the Webcam.js JavaScript Library -->
+
+
 <script type="text/javascript" src="webcam.js"></script>
-
-<!-- Configure a few settings and attach camera -->
 <script language="JavaScript">
+
+  var __w = 1024;
+  var __h = 768;
+
   Webcam.set({
-    width: 640,
-    height: 480,
+    width: __w,
+    height: __h,
     image_format: 'jpeg',
     jpeg_quality: 70
   });
   Webcam.attach( '#my_camera' );
-</script>
 
-<form>
-  <input type=button value="Start" onClick="startStream()">
-  <input type=button value="Save User" onClick="saveUser(this)">
-</form>
-
-<script language="JavaScript">
   var users = [];
   var lastFaces = [];
   var color = ["red", "blue", "green", "pink", "cian", "orange"]
@@ -59,25 +55,29 @@
     checkFaces(items);
 
     ctx.fillStyle = 'rgba(225,225,225,1.0)';
-    ctx.clearRect(0, 0, 640, 480);
+    ctx.clearRect(0, 0, __w, __h);
 
     for(var i = 0; i < items.length; i++){
       var item = items[i];
       var pos = item.location;
 
       ctx.beginPath();
+      ctx.strokeSize="1";
 
-      ctx.font = "12px Arial";
-      ctx.fillText(item.name ,pos.x, pos.y - 6);
+      ctx.fillStyle = 'rgba(0,0,255,1.0)';
+      ctx.fillRect(pos.x, pos.y - 24, pos.w, 24);
+      ctx.font = "14px Arial";
+      ctx.fillStyle = 'rgba(255,255,225,1.0)';
+      ctx.fillText(item.name, pos.x + 4, pos.y - 6);
+      //ctx.stroke();
 
       if(item.landmark && item.landmark.leftEye && item.landmark.rightEye) {
         ctx.arc(item.landmark.leftEye.x, item.landmark.leftEye.y, 3, 0, 2 * Math.PI, false);
         ctx.arc(item.landmark.rightEye.x, item.landmark.rightEye.y, 3, 0, 2 * Math.PI, false);
       }
 
-      ctx.strokeSize="1";
       ctx.strokeStyle=color[i];
-      ctx.rect(pos.x, pos.y, pos.w, pos.h);
+      ctx.rect(pos.x, pos.y - 24, pos.w, pos.h);
       ctx.stroke();
       ctx.closePath();
     }
@@ -94,9 +94,9 @@
       for(var j = 0; j < users.length; j++){
         var user = users[j];
         var res = match(face.embedding, user.embedding);
-        console.log(res)
         if(res < 1.0){
           face.name = user.name;
+          face._user = user;
           break;
         } else {
           face.name = "Unknown user";
@@ -127,14 +127,20 @@
       if(l.x < pos.x && pos.x < (l.x + l.w) &&
          l.y < pos.y && pos.y < (l.y + l.h) )
       {
-        var name = prompt('Enter Name for a new user');
+        var name = prompt('Enter Name for a new user', lastFaces[i].name);
         if(name) {
           var user = {
             name: name,
             embedding: lastFaces[i].embedding
           };
 
-          users.push(user);
+          if(lastFaces[i]._user){
+            lastFaces[i]._user.name = name;
+          }
+          else{
+            users.push(user);
+          }
+
           localStorage.users = JSON.stringify(users);
         }
       }
