@@ -89,18 +89,23 @@
 
 
   function checkFaces(faces) {
-    for(var i = 0; i < faces.length; i++){
-      var face = faces[i]
-      for(var j = 0; j < users.length; j++){
+    for (var i = 0; i < faces.length; i++) {
+      var face = faces[i],
+        acceptableUser = null,
+        minRes = 1.0;
+      for (var j = 0; j < users.length; j++) {
         var user = users[j];
         var res = match(face.embedding, user.embedding);
-        if(res < 1.0){
-          face.name = user.name;
-          face._user = user;
-          break;
-        } else {
-          face.name = "Unknown user";
+        if (res < minRes) {
+          minRes = res;
+          acceptableUser = user;
         }
+      }
+      if (acceptableUser) {
+        face.name = acceptableUser.name;
+        face._user = acceptableUser;
+      } else {
+        face.name = "Unknown user";
       }
     }
   }
