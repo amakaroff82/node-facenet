@@ -19,7 +19,7 @@
 <h3>Face Recognition Tool</h3>
 <div id="preview">
   <div id="my_camera"></div>
-  <canvas id="layer" height="768" width="1024"></canvas>
+  <canvas id="layer" height="480" width="640"></canvas>
 </div>
 <form>
   <input type=button value="Start" onClick="startStream()">
@@ -27,11 +27,11 @@
 
 
 
-<script type="text/javascript" src="webcam.js"></script>
+<script type="text/javascript" src="./webcam.js"></script>
 <script language="JavaScript">
 
-  var __w = 1024;
-  var __h = 768;
+  var __w = 640;
+  var __h = 480;
 
   Webcam.set({
     width: __w,
@@ -39,6 +39,7 @@
     image_format: 'jpeg',
     jpeg_quality: 70
   });
+
   Webcam.attach( '#my_camera' );
 
   var users = [];
@@ -69,11 +70,12 @@
       ctx.font = "14px Arial";
       ctx.fillStyle = 'rgba(255,255,225,1.0)';
       ctx.fillText(item.name, pos.x + 4, pos.y - 6);
-      //ctx.stroke();
+      //
 
       if(item.landmark && item.landmark.leftEye && item.landmark.rightEye) {
         ctx.arc(item.landmark.leftEye.x, item.landmark.leftEye.y, 3, 0, 2 * Math.PI, false);
         ctx.arc(item.landmark.rightEye.x, item.landmark.rightEye.y, 3, 0, 2 * Math.PI, false);
+        ctx.stroke();
       }
 
       ctx.strokeStyle=color[i];
@@ -166,7 +168,10 @@
             response.json().then((res)=>{
               if(res && res.length){
                 updateTracking(res);
+              } else {
+                updateTracking([]);
               }
+
 
               startStream();
             });
@@ -180,14 +185,21 @@
     } );
   }
 
-  setTimeout(()=>{
-    startStream();
-  },1000)
+
+
+
 
 
   if(localStorage.users){
     users = JSON.parse(localStorage.users);
   }
+
+  Webcam.on('load', function(){
+    console.log('Start stream');
+    setTimeout(function(){
+      startStream();
+    }, 200)
+  })
 
 </script>
 

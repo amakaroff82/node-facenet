@@ -5,7 +5,7 @@ import {extname} from 'path';
 const STATIC_FILES_DIR = 'admin';
 
 export function serveStatic(request: IncomingMessage, response: ServerResponse) : void {
-  response.setHeader('Access-Control-Allow-Origin', '192.168.1.77');
+  response.setHeader('Access-Control-Allow-Origin', '10.10.0.74');
   response.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
   response.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
   response.setHeader('Access-Control-Allow-Credentials', 'true');
