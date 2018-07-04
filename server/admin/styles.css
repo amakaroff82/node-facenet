@@ -1,0 +1,40 @@
+body {
+  font-family: Helvetica, sans-serif;
+}
+
+h2, h3 {
+  margin-top: 0;
+}
+
+form {
+  margin-top: 15px;
+}
+
+form > input {
+  margin-right: 15px;
+}
+
+#results {
+  float: right;
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid;
+  background: #ccc;
+}
+
+#layer {
+  position: absolute;
+  top: 0px
+}
+
+#preview {
+  position: relative;
+}
+
+#details {
+  position: relative;
+}
+
+#cont {
+  display: inline-flex;
+}
