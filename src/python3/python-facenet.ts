@@ -66,7 +66,7 @@ export class PythonFacenet {
     })
 
     const bridge = pythonBridge({
-      python: 'python3',
+      python: 'python'
     })
 
     return bridge
@@ -102,6 +102,9 @@ export class PythonFacenet {
     const start = Date.now()
     // we need not to care about session.close()(?)
     await this.python3.ex`
+      import sys
+      sys.path.append('./python3/facenet/src')
+      sys.path.append('./src/python3')
       from facenet_bridge import MtcnnBridge
       mtcnn_bridge = MtcnnBridge()
       mtcnn_bridge.init()
