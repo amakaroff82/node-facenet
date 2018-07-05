@@ -129,7 +129,7 @@ t.*
 .cache/
 .mypy_cache/
 
-python3/
+/python3/
 models/
 
 /*.jpg
