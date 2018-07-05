@@ -32,7 +32,7 @@
     "@types/gm": "^1.17.31",
     "@types/mkdirp": "^0.5.1",
     "@types/node": "^10.1.2",
-    "@types/numjs": "^0.16.0",
+    "@types/numjs": "^0.14.3",
     "@types/printf": "^0.2.0",
     "@types/rimraf": "^2.0.2",
     "@types/semver": "^5.5.0",
@@ -60,6 +60,7 @@
     "typescript": "^2.6.1"
   },
   "scripts": {
+    "prepare:win": "npm install -g --production windows-build-tools ts-node typescript",
     "clean": "npm run clean:dist && npm run clean:python3 && npm run clean:models",
     "clean:dist": "shx rm -fr dist/*",
     "clean:python3": "shx rm -fr python3/*",
