@@ -30,16 +30,15 @@ export class FacenetService {
     }
   }
 
-  public async extractEmbeddingsFromFile(fileName: String): void {
-    this.facenet.align(fileName).then((faceList) => {
-      this.buildEmbbedings(faceList).then(() => {
-        return await faceList.map(item => ({
-          location: item.location,
-          landmark: item.landmark,
-          embedding: item.embedding ? item.embedding.tolist() : []
-        }))
-      });
-    });
+  public async extractEmbeddingsFromFile(fileName: string): Promise<any[]> {
+    const faceList = await this.facenet.align(fileName);
+    await this.buildEmbbedings(faceList);
+    return await faceList.map(item => ({
+      location: item.location,
+      landmark: item.landmark,
+      embedding: item.embedding ? item.embedding.tolist() : []
+    }));
+
   }
 
   public serveApi(request: IncomingMessage, response: ServerResponse): void {
@@ -64,7 +63,7 @@ export class FacenetService {
               return;
             }
 
-            this.extractEmbeddingsFromFile().then((result)=>{
+            this.extractEmbeddingsFromFile(newFileName).then((result) => {
               response.write(JSON.stringify(result));
               response.end();
               unlink(newFileName, () => {
