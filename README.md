@@ -12,6 +12,27 @@ FaceNet is a deep convolutional network designed by Google, trained to solve fac
 1. optimize the embedding face recognition performance using only 128-bytes per face. 
 1. achieves accuracy of 99.63% on Labeled Faces in the Wild (LFW) dataset, and 95.12% on YouTube Faces DB.
 
+# DB
+
+### Dependencies:
+
+ * [OrientDb](https://orientdb.com/download-2/)
+ 
+### Required project structure:
+
+    projects/
+      |_ orientdb/
+      |_ node-facenet/
+
+### Installation
+
+Choose _**/cmd**_ directory in project 
+
+Run **start-db.bat** for start OrientDb server
+
+Run **reset-db.bat** for create or reset database
+
+
 # INSTALL
 
 ```shell
