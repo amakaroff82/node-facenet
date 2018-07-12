@@ -1,4 +1,4 @@
-CREATE DATABASE remote:localhost/corevision root root
+CREATE database plocal:corevision root root plocal graph
 
 CREATE CLASS Image
 CREATE PROPERTY Image.path STRING
